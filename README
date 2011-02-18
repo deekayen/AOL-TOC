@@ -1,0 +1,8 @@
+This is a script to logon to AOL IM using the TOC protocol.
+There is only one official publication for TOC and a few
+Perl based TOC scripts. AFAIK, this is the most complete
+AOL IM implementation in PHP to date. The most of the protocol
+is supported except chat. The remainder of the work are more
+minor things like managing a buddy list - who's online, what
+their warning level is, and if they're away or not. Error
+handling is quite crappy, too.
