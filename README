@@ -1,8 +1,19 @@
-This is a script to logon to AOL IM using the TOC protocol.
-There is only one official publication for TOC and a few
-Perl based TOC scripts. AFAIK, this is the most complete
-AOL IM implementation in PHP to date. The most of the protocol
-is supported except chat. The remainder of the work are more
-minor things like managing a buddy list - who's online, what
-their warning level is, and if they're away or not. Error
-handling is quite crappy, too.
+TAC is an implementation of TOC2.0 for AOL Instant Messaging.
+
+TOC2.0 Login Description
+========================
+
+Primary Method (Secure?):
+
+toc2_login <auth_serv> <auth_port> <username> <password> <language> <client version> <country?> <country> <hash?> 3 0 03 0303 -kentucky -utf8 <hash>
+
+-------------------------------------
+
+Another method (less secure?):
+
+toc2_signon <auth_serv> <auth_port> <username> <password> <language> <client> <hash>
+
+-------------------------------------
+
+
+*<hash>* denotes a numerical hash of the username/password (need an algorithm for this)

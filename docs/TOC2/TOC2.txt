@@ -1,0 +1,211 @@
+******************************************************************
+
+TOC2.0 Protocol Documentation (A work in progress)
+
+     --------------------------------------------------------
+
+	- Author: Andrew Heebner (andrew@evilwalrus.com)
+	- Client: TAC (http://projects.evilwalrus.com/andrew/TAC)
+
+     --------------------------------------------------------
+
+General Notes:
+
+	[X] currently implemented in TAC
+	[-] will not be implemented in TAC
+	[?] indecisive
+
+******************************************************************
+
+TOC 2.0 Commands
+
+******************************************************************
+
+------------------------------------------------------------------
+Auditorium Commands:
+------------------------------------------------------------------
+
+[-] toc_aud_toggle - Toggle auditorium user?
+	<?> <?>
+
+[-] toc_aud_accept_bid - Accept bid for new aud. user?
+	<?> <?> <?>
+
+[-] toc_aud_list_rows - List auditorium rows?
+	<?> <?>
+
+[-] toc_aud_tally_vote - Tally auditorium votes?
+	<?> <?> <?>
+
+[-] toc_aud_move_to_row - Move to auditorium row?
+	<?> <?>
+
+[-] toc_aud_stage_decline - Decline user from stage?
+	<?>
+
+[-] toc_aud_show_row_by_number - Show row name by number?
+	<?> <?> <?>
+
+[-] toc_aud_show_row_by_nick - Show row name by nick?
+	<?> <?> <?>
+
+[-] toc_aud_show_my_row - Show my row?
+	<?> <?>
+
+[-] toc_aud_stage_accept - Accept a new user on the stage?
+	<?>
+
+[-] toc_aud_send_comment - Send commend to auditorium?
+	<?> <?> <?>
+
+[-] toc_aud_send_question - Send question to auditorium?
+	<?> <?> <?>
+
+------------------------------------------------------------------
+Login Commands:
+------------------------------------------------------------------
+
+[?] toc2_login - Login to TOC2 server (SECURE)
+	<still_working_on_this_because_it_is_very_long>
+
+[X] toc2_signon - Login to TOC2 server (LESS-SECURE)
+	<auth_host> <auth_port> <screenname> <roasted_pass> <language> <client_name> <hash>
+
+------------------------------------------------------------------
+Account Commands:
+------------------------------------------------------------------
+
+[-] toc_confirm_account - Confirm AIM account (UNCONFIRMED)
+	*no args*
+
+------------------------------------------------------------------
+User Commands:
+------------------------------------------------------------------
+
+[-] toc_get_status - Get user status
+	<user>
+
+------------------------------------------------------------------
+Messaging Commands:
+------------------------------------------------------------------
+
+[X] toc2_send_im_enc - Send UTF-8 encoded instant message
+	<user> F U <language> <message> <auto>
+
+[X] toc_chat_whisper_enc - Send UTF-8 encoded chat whisper (deprecated)
+	<chanid> U <user> <message>
+
+[X] toc_chat_send_enc - send UTF-8 encoded chat message
+	<chanid> U <message>
+
+[-] toc_chat_invite_enc - Send UTF-8 encoded chat invitation (UNCONFIRMED)
+	<?>
+
+------------------------------------------------------------------
+Buddylist Commands:
+------------------------------------------------------------------
+
+[X] toc2_add_permit - Add a buddy to the permit list
+	<user>
+
+[X] toc2_add_deny - Add a buddy to the deny list
+	<user>
+
+[X] toc2_remove_permit - Remove a buddy from the permit list
+	<user>
+
+[X] toc2_remove_deny -  Remove a buddy from the deny list
+	<user>	
+
+[X] toc2_remove_buddy - Remove buddy from buddylist
+	<group> <user>
+
+[-] toc2_del_group - Delete buddylist group
+	<group>
+
+[-] toc2_new_group - Add new buddylist group
+	<group>
+
+[X] toc2_new_buddies - Add a buddy to the buddylist (to a specified group)
+	*SEE BELOW*
+
+[X] toc2_set_pdmode - Set Permit/Deny Mode (see modes below)
+	<mode>
+
+------------------------------------------------------------------
+
+Format for toc2_new_buddies (example):
+
+toc2_new_buddies "g:GroupName
+b:BuddyName
+"
+
+*NOTE*: Newlines ARE necessary, or else the command won't work.
+
+------------------------------------------------------------------
+
+Buddylist modes:
+
+0x01 - Allow all
+0x02 - Deny all
+0x03 - Permit some
+0x04 - Deny Some
+0x05 - Permit only buddylist
+0x06 - Block AIM
+
+
+------------------------------------------------------------------
+
+Misc Notes:
+
+	"U" = UTF8 encoding ( Anything marked with this must be UTF8 encoded )
+	<language> = "english-US" ( I think this is the only allowable language )
+	<encoding> = "UTF8" ( see 'U' comment above )
+	<hash> = Encoded hash of username/unroasted password (security purposes)
+
+******************************************************************
+
+TOC 2.0 Callbacks
+
+(These really aren't needed unless we're recieving messages
+from another TOC2-enabled client)
+
+******************************************************************
+
+------------------------------------------------------------------
+Misc. callbacks
+------------------------------------------------------------------
+
+[-] EMAIL			Recieve the email you signed up with (UNCONFIRMED)
+
+------------------------------------------------------------------
+Misc. Message callbacks
+------------------------------------------------------------------
+
+[X] IM_IN_ENC2			Recieve a UTF8-encoded IM
+[X] CHAT_IN_ENC			Recieve a UTF-8 encoded chat message
+[X] CHAT_INVITE_ENC		Recieve a chat invitation (UTF8-encoded)
+
+------------------------------------------------------------------
+Buddylist callbacks
+------------------------------------------------------------------
+
+[X] NEW_BUDDY_REPLY2		Returned when toc2_new_buddies is used
+[X] UPDATE_BUDDY2		Replacement for UPDATE_BUDDY in TOC1.0
+[X] INSERTED2			Returned when a buddy/group/permit/deny is added
+[X] UPDATED2			Returned when buddylist mode is changed
+[X] DELETED2			Returned when a buddy/group/permit/deny is removed
+[X] CONFIG2			Displays config as sent to TOC
+
+------------------------------------------------------------------
+Auditorium Support?  AOL-like feature ( not supported )
+------------------------------------------------------------------
+
+[-] AUD_UPDATE_STAGE_GUEST
+[-] AUD_STAGE_IN_ENC
+[-] AUD_ROW
+[-] AUD_JOIN
+[-] AUD_NOTIFY
+[-] AUD_LIST_ROWS
+[-] AUD_STAGE_JOIN
+[-] AUD_STAGE_INVITE
