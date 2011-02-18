@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package name="TAC" require="5.0" revision="$Revision: 1.1 $">
+	<class name="TAC" access="public">
+		<function name="__construct" access="public" return="void" args="array options" throws="TACException">
+			Prepares the TAC class for initialization
+			<longdesc>
+				__construct takes an array of options, each of which is defined below:
+				[ul]
+				[li][tt]screenname	=> string   (Screenname of the client)[/tt][/li]
+				[li][tt]password    => string   (Client password)[/tt][/li]
+				[li][tt]debug       => boolean  (Output additional debug info)[/tt][/li]
+				[li][tt]defensive   => boolean  (Evil upon being eviled)[/tt][/li]
+				[/ul]
+			</longdesc>
+		</function>
+		<function name="__destruct" access="private" return="void" args="void" throws="">
+			Destroys variables set by __construct in TAC class
+			<longdesc>Destroys referenced objects set by [a href="index.php?class=TAC&amp;function=__construct"][b class="function"]TAC::__construct[/b][/a]</longdesc>
+		</function>
+		<function name="__call" access="private" return="void" args="string method" throws="TACException">
+			Throws a [a href="index.php?class=TACException"]TACException[/a] is an invalid method to the class is called
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="_version" access="private" return="boolean" args="[integer version]" throws="TACException">
+			Run compatibility check (against PHP5)
+			<longdesc>[tt class="parameter"][i]version[/i][/tt] defaults to 5 (PHP 5.0)</longdesc>
+		</function>
+		<function name="aim_debug" access="public" return="void" args="string text_to_print [, string message_type]" throws="">
+			Print debug text to console
+			<longdesc>
+				[tt class="parameter"][i]message_type[/i][/tt] can be any of the following constants:
+				[ul]
+				[li][tt class="constant"]AIM_INFO[/tt] => [tt]Informational message[/tt][/li]
+				[li][tt class="constant"]AIM_ERR[/tt] => [tt]Error message[/tt][/li]
+				[li][tt class="constant"]AIM_RECV[/tt] => [tt]Data (formatted) recieved from server[/tt][/li]
+				[li][tt class="constant"]AIM_SENT[/tt] => [tt]Information written to server[/tt][/li]
+				[li][tt class="constant"]AIM_RAW[/tt] => [tt]Data (raw) recieved from server[/tt][/li]
+				[li][tt class="constant"]AIM_WARN[/tt] => [tt]Warning message[/tt][/li]
+				[/ul]
+				[b class="function"]aim_debug()[/b] prints all console-level debug information to the console.  [tt class="constant"]AIM_INFO[/tt] is the default [tt class="parameter"][i]message_type[/i][/tt].
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b][b class="function"]aim_debug()[/b] dies on [tt class="constant"]AIM_ERR[/tt][/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+		<function name="aim_connect" access="private" return="boolean" args="void" throws="TACException">
+			Connect to the TOC server
+			<longdesc>
+				[b class="function"]aim_connect()[/b] attempts to connect and login to the TOC server
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]This function is utilized directly by the constructor.  If the connection is refused or otherwise not available, a [a href="index.php?class=TACException"][b class="function"]TACException[/b][/a] is thrown[/p]
+					[/blockquote]
+				[/div]
+				[p][b]See also:[/b] [a href="index.php?class=TAC&amp;function=aim_login"]TAC::aim_login[/a][/p]
+			</longdesc>
+		</function>
+		<function name="aim_disconnect" access="public" return="boolean" args="void" throws="TACException">
+			Disconnects from the TOC server
+			<longdesc>
+				[b class="function"]aim_disconnect()[/b] attempts to disconnect the client from the TOC server
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]If an active connection is not found, a [a href="index.php?class=TACException"][b class="function"]TACException[/b][/a] is thrown[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+		<function name="aim_connected" access="public" return="boolean" args="void" throws="TACException">
+			Check if connection is still alive
+			<longdesc>
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b][b class="function"]aim_connected()[/b] throws a [a href="index.php?class=TACException"][b class="function"]TACException[/b][/a] is a connection is not found[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+		<function name="aim_login" access="private" return="void" args="void" throws="TACException">
+			Send login information to TOC server
+			<longdesc>
+				[b class="function"]aim_login()[/b] attempts to login to the TOC service
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]This function is utilized directly by the constructor.  If the login is refused or times out, a [a href="index.php?class=TACException"][b class="function"]TACException[/b][/a] is thrown; [b class="function"]aim_login()[/b] is used internally in [a href="index.php?class=TAC&amp;function=aim_connect"][b class="function"]aim_connect()[/b][/a][/p]
+					[/blockquote]
+				[/div]
+				[p][b]See also:[/b] [a href="index.php?class=TAC&amp;function=aim_connect"]TAC::aim_connect[/a][/p]
+			</longdesc>
+		</function>
+		<function name="aim_send_raw" access="public" return="boolean" args="string text_to_send" throws="">
+			Send raw queries to TOC server
+			<longdesc>
+				[b class="function"]aim_send_raw()[/b] sends raw queries to the TOC server (namely internal use only, for commands and the other TAC classes).
+			</longdesc>
+		</function>
+		<function name="aim_recv" access="public" return="mixed" args="void" throws="TACException">
+			Receive data from TOC server
+			<longdesc>
+				[b class="function"]aim_recv()[/b] attempts to recieve data from the TOC service
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]If bad data is recieved, a [a href="index.php?class=TACException"][b class="function"]TACException[/b][/a] is thrown, else, [b class="function"]aim_recv()[/b] passes the issued commands and arguments to to [a href="index.php?class=Parser&amp;function=aim_parse_command"][b class="function"]Parser::aim_parse_command()[/b][/a] to parse for callbacks[/p]
+					[/blockquote]
+				[/div]
+				[p][b]See also:[/b] [a href="index.php?class=Parser&amp;function=aim_parse_command"]Parser::aim_parse_command[/a][/p]
+			</longdesc>
+		</function>
+		<function name="aim_loop" access="public" return="void" args="void" throws="">
+			Run main TOC loop for message capture
+			<longdesc>
+				[b class="function"]aim_loop()[/b] creates a loop that recieves information from the TOC service (see [a href="index.php?class=TAC&amp;function=aim_recv"][b class="function"]aim_recv()[/b][/a]).
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]If a [a href="index.php?class=TACException"][b class="function"]TACException[/b][/a] is thrown within the looped functions, the loop will break, and the client will end with a [a href="index.php?class=TACException"][b class="function"]TACException[/b][/a] sent to the console.[/p]
+					[/blockquote]
+				[/div]				
+				[p][b]See also:[/b] [a href="index.php?class=TAC&amp;function=aim_recv"]TAC::aim_recv[/a], [a href="index.php?class=Parser&amp;function=aim_parse_im"]Parser::aim_parse_im[/a][/p]
+			</longdesc>
+		</function>
+		<function name="aim_roast_pass" access="private" return="string" args="string pass_to_encrypt" throws="">
+			'Roasts' password with AOL-type encryption
+			<longdesc>
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]This function is utilized directly by the constructor.[/p]
+					[/blockquote]
+				[/div]							
+			</longdesc>
+		</function>
+		<function name="aim_normalize" access="public" return="string" args="string text_to_normalize" throws="">
+			Normalize input data
+			<longdesc>
+				[b class="function"]aim_normalize()[/b] strips [tt class="parameter"][i]text_to_normalize[/i][/tt] of any non-alphanumeric characters, and prepares the string for use by the TOC server.
+			</longdesc>
+		</function>
+		<function name="aim_encode" access="public" return="string" args="string text_to_encode" throws="">
+			Special encoding for text to send to TOC server
+			<longdesc>
+				[b class="function"]aim_encode()[/b] escapes special characters for encoding, and prepares them to be sent by [a href="index.php?class=TAC&amp;function=aim_send_raw"][b class="function"]aim_send_raw[/b][/a]
+				[p][b]See also:[/b] [a href="index.php?class=TAC&amp;function=aim_send_raw"]TAC::aim_send_raw[/a][/p]
+			</longdesc>
+		</function>
+		<function name="aim_toc2_hash" access="private" return="integer" args="string username, string password" throws="">
+			Special encoding for user/pass for logging onto TOC2 service
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+	</class>
+	<class name="Utilities" access="public">
+		<function name="__construct" access="private" return="void" args="object parent" throws="">
+			Prepares Utilities class for initialization
+			<longdesc>
+				[tt class="parameter"][i]parent[/i][/tt] is an initialization object passed by reference in the [a href="index.php?class=TAC&amp;function=__construct"]TAC::__construct()[/a] function.
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]This function is initialized within the TAC constructor[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+		<function name="__destruct" access="private" return="void" args="void" throws="">
+			Destroys variables set by __construct in Utilities class
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="__call" access="private" return="void" args="string method" throws="TACException">
+			Throws a [a href="index.php?class=TACException"]TACException[/a] is an invalid method to the class is called
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="aim_is_admin" access="public" return="boolean" args="string screenname" throws="">
+			Checks authorization of specified user (for restricted callbacks)
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="aim_onlinetime" access="public" return="array" args="void" throws="">
+			Display how long TAC has been connected
+			<longdesc>
+			[b class="function"]aim_onlinetime()[/b] returns an array with the following structure:
+			[ul]
+			[li][tt]days => days[/tt][/li]
+			[li][tt]hours => hours[/tt][/li]
+			[li][tt]mins => minutes[/tt][/li]
+			[li][tt]secs => seconds[/tt][/li]
+			[/ul]
+			</longdesc>
+		</function>
+		<function name="aim_send_im" access="public" return="void" args="string user, string text [, boolean encode [, boolean autorespond]]" throws="">
+			Sends an instant message with the specified text to the specified user
+			<longdesc>
+				[tt class="parameter"][i]autorespond[/i][/tt] becomes [tt class="constant"][b]TRUE[/b][/tt] if the client has set an away message via [a href="index.php?class=Utilities&amp;function=aim_set_away"][b class="function"]aim_set_away[/b][/a].  [tt class="parameter"][i]text[/i][/tt] will contain the away message (if the client was set away)
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]Setting [tt class="parameter"][i]encode[/i][/tt] to [tt class="constant"][b]TRUE[/b][/tt] enables the user to send the instant message via UTF-8 encoding to the user (via TOC2 protocol).  Please note, depening on the reciever's client, they may not be able to decode or view the message correctly.[/p]
+					[/blockquote]
+				[/div]
+				[b]See also:[/b] [a href="index.php?class=Utilities&amp;function=aim_set_away"]Utilities::aim_set_away[/a]
+			</longdesc>
+		</function>
+		<function name="aim_set_away" access="public" return="void" args="[mixed message]" throws="">
+			Sets the client marked as "away" on TOC service (sets autoresponder for messages)
+			<longdesc>
+				If [tt class="parameter"][i]message[/i][/tt] is set, then the client will be marked as away with the specified [tt class="parameter"][i]message[/i][/tt], as well as being marked as idle (see [a href="index.php?class=Utilities&amp;function=aim_set_idle"][b class="function"]aim_set_idle()[/b][/a]).  However, if nothing is passed to [b class="function"]aim_set_away()[/b], then the client will be set as no longer away, and the idle time will be reset at 0.
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b][tt class="parameter"][i]message[/i][/tt] defaults to [tt class="constant"][b]NULL[/b][/tt][/p]
+					[/blockquote]
+				[/div]
+				[b]See also:[/b] [a href="index.php?class=Utilities&amp;function=aim_set_idle"]Utilities::aim_set_idle[/a]
+			</longdesc>
+		</function>	
+		<function name="aim_warn" access="public" return="void" args="string user [, boolean anonymous_warn]" throws="">
+			Evil (warn) a user
+			<longdesc>
+				[tt class="parameter"][i]anonymous_warn[/i][/tt] defaults to [tt class="constant"][b]FALSE[/b][/tt]
+			</longdesc>
+		</function>	
+		<function name="aim_set_info" access="public" return="void" args="string info" throws="">
+			Sets user information for the client
+			<longdesc>
+				[tt class="parameter"][i]info[/i][/tt] can consist of any (basic) HTML, or normal text string.  This sets the information for the client (via 'Get Buddy Info' on AIM)
+			</longdesc>
+		</function>	
+		<function name="aim_get_info" access="public" return="void" args="string user" throws="">
+			Returns a URL for the client to navigate the the specified users buddy info (DEPRECATED)
+			<longdesc>
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b][b class="function"]aim_get_info()[/b] is a deprecated function; the [tt]toc_get_info[/tt] TOC function is only available for outdated, windowed programs (i.e.: Tik)[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>	
+		<function name="aim_set_idle" access="public" return="void" args="[integer seconds]" throws="">
+			Sets the client as idle for the specified amount of seconds
+			<longdesc>
+				[b class="function"]aim_set_idle()[/b] is used internally by aim_set_away() to set the client as idle during an away period.  [tt class="parameter"][i]seconds[/i][/tt] defaults to 1 second, but passing '0' can reset the counter, and cancel the client's idle state.
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]TOC increments the [tt class="parameter"][i]seconds[/i][/tt] parameter upon being set[/p]
+					[/blockquote]
+				[/div]
+				[b]See also:[/b] [a href="index.php?class=Utilities&amp;function=aim_set_away"]Utilities::aim_set_away[/a]
+			</longdesc>
+		</function>	
+		<function name="aim_format_sn" access="public" return="boolean" args="string new_screenname" throws="">
+			Format the clients screenname (up to 16 characters)
+			<longdesc>
+				[b class="function"]aim_format_sn()[/b] allows the client to reformat the screenname with [tt class="parameter"][i]new_screenname[/i][/tt], allowing it to add spaces and capitalize/minimize characters in the screename (within a 16 character limit)
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]If the [tt class="parameter"][i]new_screenname[/i][/tt] does not match the old screenname, or the character count is above 16 characters, an informational message is sent through [a href="index.php?class=TAC&amp;function=aim_debug"][b class="function"]aim_debug()[/b][/a] to the console[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+	</class>
+	<class name="Buddy" access="public">
+		<function name="__construct" access="private" return="void" args="object parent" throws="">
+			Prepares Buddy class for initialization
+			<longdesc>
+				[tt class="parameter"][i]parent[/i][/tt] is an initialization object passed by reference in the [a href="index.php?class=TAC&amp;function=__construct"]TAC::__construct()[/a] function.
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]This function is initialized within the TAC constructor[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+		<function name="__destruct" access="private" return="void" args="void" throws="">
+			Destroys variables set by __construct in Buddy class
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="__call" access="private" return="void" args="string method" throws="TACException">
+			Throws a [a href="index.php?class=TACException"]TACException[/a] is an invalid method to the class is called
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="aim_list_mode" access="public" return="void" args="integer mode" throws="">
+			Sets buddylist to specified mode
+			<longdesc>
+				[tt class="parameter"][i]mode[/i][/tt] can be any of the following constants:
+				[ul]
+				[li][tt class="constant"]LIST_PERMIT_ALL[/tt] => [tt]Permit all users[/tt][/li]
+				[li][tt class="constant"]LIST_PERMIT_SOME[/tt] => [tt]Permit specified users[/tt][/li]
+				[li][tt class="constant"]LIST_DENY_ALL[/tt] => [tt]Deny all users (appear online)[/tt][/li]
+				[li][tt class="constant"]LIST_DENY_SOME[/tt] => [tt]Deny specified users[/tt][/li]
+				[li][tt class="constant"]LIST_ALLOW_BUDDYLIST[/tt] => [tt]Allow only users on client's buddylist[/tt][/li]
+				[li][tt class="constant"]LIST_BLOCK_AIM[/tt] => [tt]Appear as if client is offline[/tt][/li]
+				[/ul]
+			</longdesc>
+		</function>
+		<function name="aim_update_buddy" access="public" return="void" args="string buddy, integer mode" throws="">
+			Adds/removes buddy to/from specified mode
+			<longdesc>
+				[tt class="parameter"][i]mode[/i][/tt] can be any of the following constants:
+				[ul]
+				[li][tt class="constant"]ADD_PERMIT[/tt] => [tt]Add [i]buddy[/i] to permit list[/tt][/li]
+				[li][tt class="constant"]REMOVE_PERMIT[/tt] => [tt]Remove [i]buddy[/i] from permit list[/tt][/li]
+				[li][tt class="constant"]ADD_DENY[/tt] => [tt]Add [i]buddy[/i] to deny list[/tt][/li]
+				[li][tt class="constant"]REMOVE_DENY[/tt] => [tt]Remove [i]buddy[/i] from deny list[/tt][/li]
+				[li][tt class="constant"]ADD_POUNCE[/tt] => [tt]Add [i]buddy[/i] to pounce list (temporary)[/tt][/li]
+				[li][tt class="constant"]REMOVE_POUNCE[/tt] => [tt]Remove [i]buddy[/i] from pounce list (temporary)[/tt][/li]
+				[/ul]
+			</longdesc>
+		</function>
+		<function name="aim_add_buddy" access="public" return="boolean" args="string buddy [, string group]" throws="">
+			Add a user to the buddylist
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="aim_remove_buddy" access="public" return="boolean" args="string buddy [, string group]" throws="">
+			Remove a user from the buddylist
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>	
+		<function name="aim_pounce_buddy" access="public" return="boolean" args="string buddy [, string message [, boolean encode]]" throws="">
+			Send IM to buddy upon status change
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>	
+		<function name="aim_get_user_class" access="private" return="array" args="string class" throws="">
+			Parses user classes
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>	
+	</class>
+	<class name="Chat" access="public">
+		<function name="__construct" access="private" return="void" args="object parent" throws="">
+			Prepares Chat class for initialization
+			<longdesc>
+				[tt class="parameter"][i]parent[/i][/tt] is an initialization object passed by reference in the [a href="index.php?class=TAC&amp;function=__construct"]TAC::__construct()[/a] function.
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]This function is initialized within the TAC constructor[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+		<function name="__destruct" access="private" return="void" args="void" throws="">
+			Destroys variables set by __construct in Chat class
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="__call" access="private" return="void" args="string method" throws="TACException">
+			Throws a [a href="index.php?class=TACException"]TACException[/a] is an invalid method to the class is called
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="aim_chat_invite" access="public" return="boolean" args="integer chat_id, mixed user" throws="">
+			Invite a user to the specified chatroom ID
+			<longdesc>
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b][b class="function"]aim_chat_invite()[/b] will only allow a user to invite another user, if the 'invite' command is used within a chatroom itself, and also a chatroom in which the client is active.[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+		<function name="aim_chat_join_invite" access="public" return="void" args="integer chat_id" throws="">
+			Join the specified chatroom ID
+			<longdesc>
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b][b class="function"]aim_chat_join_invite()[/b] will automatically join a chatroom when invited by another user.  To make the client leave a specified chatroom, see [a href="index.php?class=Chat&amp;function=aim_chat_part"][b class="function"]aim_chat_part()[/b][/a][/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+		<function name="aim_chat_create" access="public" return="void" args="string chatname [, integer exchange]" throws="">
+			Create a chatroom
+			<longdesc>
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b][b class="function"]aim_chat_create()[/b] attempts to create a chatroom based on the given parameter.  Should an error occur, a [a href="index.php?class=TACException"][b class="function"]TACException[/b][/a] will be thrown via ERROR.[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+		<function name="aim_chat_part" access="public" return="void" args="integer chat_id" throws="">
+			Leave the specified chatroom ID
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="aim_chat_warn" access="public" return="void" args="integer chat_id, string user [, boolean anonymous_warn]" throws="">
+			Evil (warn) a user with the spcified text in the specified chatroom ID
+			<longdesc>[tt class="parameter"][i]anonymous_warn[/i][/tt] defaults to [tt class="constant"][b]FALSE[/b][/tt]</longdesc>
+		</function>
+		<function name="aim_chat_send" access="public" return="void" args="integer chat_id, string message [, boolean encode]" throws="">
+			Send the specified message to the chatroom ID
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="aim_chat_whisper" access="public" return="void" args="integer chat_id, string user, string message [, boolean encode]" throws="">
+			Send message to chatroom user (DEPRECATED)
+			<longdesc>
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]The 'whisper' command in the TOC protocol is only useful in windowed programs, such as older TIK clients and such, thus making [b class="function"]aim_chat_whisper[/b] deprecated[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+	</class>
+	<class name="Parser" access="public">
+		<function name="__construct" access="private" return="void" args="object parent" throws="">
+			Prepares Parser class for initialization
+			<longdesc>
+				[tt class="parameter"][i]parent[/i][/tt] is an initialization object passed by reference in the [a href="index.php?class=TAC&amp;function=__construct"]TAC::__construct()[/a] function.
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]This function is initialized within the TAC constructor[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+		<function name="__destruct" access="private" return="void" args="void" throws="">
+			Destroys variables set by __construct in Parser class
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="__call" access="private" return="void" args="string method" throws="TACException">
+			Throws a [a href="index.php?class=TACException"]TACException[/a] is an invalid method to the class is called
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="aim_register_handler" access="public" return="void" args="array handlers" throws="">
+			Registers private handlers for internal (default) functions
+			<longdesc>
+			The [tt class="parameter"][i]handlers[/i][/tt] parameter must be a series of associative arrays defined as follows:
+			[ul]
+			[li][tt]alert => array(hander_function, handler_type)[/tt][/li]
+			[/ul]
+			[p][tt class="parameter"][i]hander_type[/i][/tt] (optional) may be any of the following constants:
+			[ul]
+				[li][tt class="constant"]BUDDY_STATUS	=>	Allows users to manipulate user signon/off[/tt][/li]
+				[li][tt class="constant"]CLIENT_AWAY	=>	Away message callback (REQUIRED AT RUNTIME)[/tt][/li]
+				[li][tt class="constant"]CLIENT_DEFAULT	=>	Default callback (if empty, callback is set to this)[/tt][/li]
+			[/ul]
+			[/p]
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]As listed above, [tt class="constant"]CLIENT_AWAY[/tt] is a required callback, and is required at runtime.  A fatal error will occur, and TAC will die upon failing to find a [tt class="constant"]CLIENT_AWAY[/tt] callback[/p]
+					[/blockquote]
+				[/div]
+			[/ul]
+			</longdesc>
+		</function>
+		<function name="aim_parse_im" access="private" return="void" args="array im_data" throws="TACException">
+			Parse an instant message, and call the client callback function
+			<longdesc>
+				[b class="function"]aim_parse_im()[/b] requires and array of data passed to it through [a href="index.php?class=TAC&amp;function=aim_recv"][b class="function"]aim_recv()[/b][/a], and parses the user callback as defined in a callbacks file
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]A [a href="index.php?class=TACException"]TACException[/a] will be thrown if bad data is recieved[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+		<function name="aim_parse_buddy_update" access="private" return="void" args="array im_data" throws="TACException">
+			Parse buddy information, and call the client callback function (BUDDY_STATUS)
+			<longdesc>
+				[b class="function"]aim_parse_buddy_update()[/b] requires and array of data passed to it through [a href="index.php?class=TAC&amp;function=aim_recv"][b class="function"]aim_recv()[/b][/a], and parses the user callback as defined in a callbacks file
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]A [a href="index.php?class=TACException"]TACException[/a] will be thrown if bad data is recieved[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+		<function name="aim_parse_command" access="private" return="void" args="string command, string arguments" throws="">
+			Receives data from server via [a href="index.php?class=TAC&amp;function=aim_recv"][b class="function"]TAC::aim_recv()[/b][/a] and parses it to its associated callback services
+			<longdesc>[p][b]See also:[/b] [a href="index.php?class=TAC&amp;function=aim_recv"]TAC::aim_recv[/a][/p]</longdesc>
+		</function>
+	</class>
+	<class name="TACException" access="public">
+		<function name="__construct" access="public" return="void" args="[string error_text]" throws="">
+			Sets the error text to throw within [a href="index.php?class=TACException"]TACException[/a]
+			<longdesc>
+				If [tt class="parameter"][i]error_text[/i][/tt] is not set, [tt class="parameter"][i]error_text[/i][/tt] is defaulted as '[tt class="constant"][b]Unknown Error[/b][/tt]'
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]TACException must be initialized for each error thrown[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+		<function name="display" access="public" return="void" args="void" throws="">
+			Displays error text passed to [a href="index.php?class=TACException"]TACException[/a]
+			<longdesc>Print error text (and die) passed to [a href="index.php?class=TACException&amp;function=__construct"]TACException::__construct[/a]</longdesc>
+		</function>
+	</class>
+	<class name="ErrorHandler" access="private">
+		<function name="__construct" access="private" return="void" args="object parent" throws="">
+			Prepares Parser class for initialization
+			<longdesc>
+				[tt class="parameter"][i]parent[/i][/tt] is an initialization object passed by reference in the [a href="index.php?class=TAC&amp;function=__construct"]TAC::__construct()[/a] function.
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]This function is initialized within the TAC constructor[/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+		<function name="__destruct" access="private" return="void" args="void" throws="">
+			Destroys variables set by __construct in Parser class
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="__call" access="private" return="void" args="string method" throws="TACException">
+			Throws a [a href="index.php?class=TACException"]TACException[/a] is an invalid method to the class is called
+			<longdesc>[b]No additional information[/b]</longdesc>
+		</function>
+		<function name="handleError" access="private" return="void" args="integer error [, string error_text]" throws="TACException">
+			Handles errors based on internal codes
+			<longdesc>
+				[div CLASS="note"]
+		            [blockquote CLASS="note"]
+						[p][b]Note: [/b]If the [tt class="parameter"][i]error[/i][/tt] is a fatal error, a [a href="index.php?class=TACException"]TACException[/a] will be thrown, otherwise, a warning is issued to the console through [a href="index.php?class=TAC&amp;function=aim_debug"][b class="function"]TAC::aim_debug()[/b][/a][/p]
+					[/blockquote]
+				[/div]
+			</longdesc>
+		</function>
+	</class>
+</package>
